@@ -49,25 +49,22 @@
                         </div>
                         <div class="topbar-menu right-menu">
                             <ul>
-                                <li class="menu-item"><a title="Register or Login" href="login.html">Login</a></li>
-                                <li class="menu-item"><a title="Register or Login" href="register.html">Register</a>
-                                </li>
                                 <li class="menu-item lang-menu menu-item-has-children parent">
                                     <a title="English" href="#"><span class="img label-before"><img
-                                                src="{{asset('assets/images/lang-en.png')}}')}}" alt="lang-en"></span>English<i
+                                                src="{{asset('assets/images/lang-en.png')}}" alt="lang-en"></span>English<i
                                             class="fa fa-angle-down" aria-hidden="true"></i></a>
                                     <ul class="submenu lang">
                                         <li class="menu-item"><a title="hungary" href="#"><span
-                                                    class="img label-before"><img src="{{asset('assets/images/lang-hun.png')}}')}}"
+                                                    class="img label-before"><img src="{{asset('assets/images/lang-hun.png')}}"
                                                         alt="lang-hun"></span>Hungary</a></li>
                                         <li class="menu-item"><a title="german" href="#"><span
-                                                    class="img label-before"><img src="{{asset('assets/images/lang-ger.png')}}')}}"
+                                                    class="img label-before"><img src="{{asset('assets/images/lang-ger.png')}}"
                                                         alt="lang-ger"></span>German</a></li>
                                         <li class="menu-item"><a title="french" href="#"><span
-                                                    class="img label-before"><img src="{{asset('assets/images/lang-fra.png')}}')}}"
+                                                    class="img label-before"><img src="{{asset('assets/images/lang-fra.png')}}"
                                                         alt="lang-fre"></span>French</a></li>
                                         <li class="menu-item"><a title="canada" href="#"><span
-                                                    class="img label-before"><img src="{{asset('assets/images/lang-can.png')}}')}}"
+                                                    class="img label-before"><img src="{{asset('assets/images/lang-can.png')}}"
                                                         alt="lang-can"></span>Canada</a></li>
                                     </ul>
                                 </li>
@@ -86,6 +83,48 @@
                                         </li>
                                     </ul>
                                 </li>
+                                @if (Route::has('login'))
+                                @auth
+                                @if (Auth::user()->user_type === 'ADM')
+                                    <li class="menu-item menu-item-has-children parent">
+                                        <a title="my-account" href="">My Account ({{Auth::user()->name}})<i class="fa fa-angle-down"
+                                                aria-hidden="true"></i></a>
+                                        <ul class="submenu curency">
+                                            <li class="menu-item">
+                                                <a title="dashboard" href="{{route('admin.dashboard')}}">Dashboard</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a title="logout" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                            </li>
+                                            <form id="logout-form" action="{{route('logout')}}" method="post">
+                                                @csrf
+                                            </form>
+                                        </ul>
+                                    </li>
+                                @else
+                                <li class="menu-item menu-item-has-children parent">
+                                    <a title="my-account" href="{{route('user.dashboard')}}">My Account ({{Auth::user()->name}})<i class="fa fa-angle-down"
+                                            aria-hidden="true"></i></a>
+                                    <ul class="submenu curency">
+                                        <li class="menu-item">
+                                            <a title="dashboard" href="{{route('user.dashboard')}}">Dashboard</a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a title="logout" href="{{route('logout')}}"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                        </li>
+                                        <form id="logout-form" action="{{route('logout')}}" method="post">
+                                            @csrf
+                                            {{-- <button type="submit">log</button> --}}
+                                        </form>
+                                    </ul>
+                                </li>
+                                @endif
+                                @else
+                                <li class="menu-item"><a title="Register or Login" href="{{route('login')}}">Login</a></li>
+                                <li class="menu-item"><a title="Register or Login" href="{{route('register')}}">Register</a></li>
+                                @endauth
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -95,7 +134,7 @@
                     <div class="mid-section main-info-area">
 
                         <div class="wrap-logo-top left-section">
-                            <a href="index.html" class="link-to-home"><img src="{{asset('assets/images/logo-top-1.png')}}')}}"
+                            <a href="index.html" class="link-to-home"><img src="{{asset('assets/images/logo-top-1.png')}}"
                                     alt="mercado"></a>
                         </div>
 
