@@ -3,6 +3,7 @@
 use App\Livewire\Admin\AdminDashboardComponent;
 use App\Livewire\CartComponent;
 use App\Livewire\CheckoutComponent;
+use App\Livewire\DetailComponent;
 use App\Livewire\HomeComponent;
 use App\Livewire\ShopComponent;
 use App\Livewire\User\UserDashboardComponent;
@@ -32,6 +33,9 @@ Route::get('/shop', ShopComponent::class)->name('shop');
 Route::get('/cart', CartComponent::class)->name('cart');
 
 Route::get('/checkout', CheckoutComponent::class)->name('checkout');
+
+Route::get('proudct/{slug}', DetailComponent::class)->name('product.detail');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
