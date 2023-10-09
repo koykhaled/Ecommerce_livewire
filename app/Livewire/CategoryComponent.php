@@ -9,15 +9,17 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 
-class ShopComponent extends Component
+class CategoryComponent extends Component
 {
     use WithPagination;
     public $sorting;
     public $pagesize;
-    public function mount()
+    public $categorySlug;
+    public function mount($categorySlug)
     {
         $this->sorting = "default";
         $this->pagesize = 12;
+        $this->categorySlug = $categorySlug;
     }
     public function store($product_id, $product_name, $product_price)
     {
@@ -29,20 +31,21 @@ class ShopComponent extends Component
     public function render()
     {
 
+        $category = Category::where('slug', $this->categorySlug)->first();
         $categories = Category::all();
         switch ($this->sorting) {
             case 'date':
-                $products = Product::orderBy('created_at', 'DESC')->paginate($this->pagesize);
+                $products = Product::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate($this->pagesize);
                 break;
             case 'price':
-                $products = Product::orderBy('reqular_price', 'ASC')->paginate($this->pagesize);
+                $products = Product::where('category_id', $category->id)->orderBy('reqular_price', 'ASC')->paginate($this->pagesize);
                 break;
             case 'price-desc':
-                $products = Product::orderBy('reqular_price', 'DESC')->paginate($this->pagesize);
+                $products = Product::where('category_id', $category->id)->orderBy('reqular_price', 'DESC')->paginate($this->pagesize);
                 break;
             default:
-                $products = Product::paginate($this->pagesize);
+                $products = Product::where('category_id', $category->id)->paginate($this->pagesize);
         }
-        return view('livewire.shop-component', compact('products', 'categories'))->layout('layouts.base');
+        return view('livewire.category-component', compact('products', 'categories', 'category'))->layout('layouts.base');
     }
 }
